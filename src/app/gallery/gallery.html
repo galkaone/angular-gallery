@@ -1,61 +1,55 @@
-<div class="gallery">
+<div class="gallery row">
 
-    <div>
+
+    <div class="gallery__slider-container col-lg-12">
      <div my-slider auto-slide="true" auto-slide-time="{{gallery.autoRotateTime}}" class="slider">
 
        <div my-slider-window class="slider-window">
          <div my-slider-item-list class="slider-item-list">
            <div my-slider-item class="slider-item" ng-repeat="img in gallery.images">
-              <img src="{{img.url}}" width="500" height="300" alt="">
+              <img src="{{img.url}}" alt="">
            </div>
          </div>
        </div>
      </div>
-
     </div>
 
-  <div class="gallery__menu ">
+  <div class="gallery__menu col-lg-12">
 
-<!--   <form class="form-inline">
+    <form class="form-inline">
       <div class="form-group">
-        <label for="exampleInputName2">Name</label>
-        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+        <label for="exampleInputEmail2">Sort By Type</label>
+        <select
+          ng-if="gallery.sorting"
+          ng-model="gallery.sortType"
+          ng-options="type for type in gallery.sortTypes track by type"
+          class="form-control" >
+        </select>
       </div>
-      <div class="form-group">
-        <label for="exampleInputEmail2">Email</label>
-        <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
-      </div>
-      <button type="submit" class="btn btn-default">Send invitation</button>
+        <div class="form-group">
+          <label for="exampleInputEmail2">Sort By Type</label>
+          <select
+            ng-model="gallery.resultsPerPage"
+            ng-options="opt for opt in gallery.resOptions track by opt"
+            class="form-control">
+            <option value="">Choose Amount</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="search" placeholder="Search for image" ng-model="gallery.searchFilter" class="form-control" />
+        </div>
     </form>
- -->
-    <input type="search" placeholder="Search for image" ng-model="gallery.searchFilter"/>
-
-    <select
-      ng-if="gallery.sorting"
-      ng-model="gallery.sortType"
-      ng-options="type for type in gallery.sortTypes track by type">
-    </select>
-
-    <select
-      ng-model="gallery.resultsPerPage"
-      ng-options="opt for opt in gallery.resOptions track by opt">
-      <option value="">Choose Amount</option>
-    </select>
 
   </div>
 
   <!-- gallery images -->
-  <ul class="gallery__images">
-    <li ng-repeat="img in gallery.filteredImages = (gallery.images | orderBy:gallery.sortType | filter:gallery.searchFilter | limitTo: gallery.resultsPerPage)">
-      <img ng-click="gallery.enlargeImg(img)" ng-src="{{img.url}}" title="{{img.title}}" alt="" />
-    </li>
-  </ul>
-
-  <div>
-
-  <div>
-    modal window (bootstrap)
-    so image with next/prev buttons
+  <div class="gallery__images">
+  <!-- used https://github.com/IronSummitMedia/startbootstrap-thumbnail-gallery -->
+    <div ng-repeat="img in gallery.filteredImages = (gallery.images | orderBy:gallery.sortType | filter:gallery.searchFilter | limitTo: gallery.resultsPerPage)" class="col-lg-3 col-md-4 col-xs-6 thumb">
+      <a ng-click="gallery.enlargeImg(img)" class="thumbnail">
+        <img ng-src="{{img.url}}" class="img-responsive" title="{{img.title}}" alt="" />
+      </a>
+    </div>
   </div>
 
 </div>

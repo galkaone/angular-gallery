@@ -1,10 +1,13 @@
+$width: 700px;
+$height: 350px;
+
 [my-slider-window] {
   position: relative;
   overflow: hidden;
 
   /* Customize the dimensions of your my-slider */
-  height: 300px;
-  width: 500px;
+  height: $height;
+  width: $width;
 }
 
 [my-slider-item-list] {
@@ -26,7 +29,7 @@
   position: relative;
   padding: 5px 5px 0;
   border: 1px solid #ccc;
-  width: 512px;
+  width: $width + 12px;
 }
 
 .slider .slider-item-list {
@@ -46,8 +49,8 @@
 }
 .slider .slider-item img {
   display: block;
-  width: 500px;
-  height: 300px;
+  width: $width;
+  height: $height;
 }
 .slider .slider-indicators {
   padding: 15px 0;
@@ -81,7 +84,7 @@
 }
 .slider .slider-nav .icon {
   font-size: 40px;
-  line-height: 300px;
+  line-height: $height;
   padding: 0 15px;
   opacity: 0.5;
   color: #fff;
@@ -103,7 +106,7 @@
 .slider .slider-nav .previous, .slider .slider-nav .next {
   position: absolute;
   top: 5px;
-  height: 300px;
+  height: $height;
   width: 45%;
   text-decoration: none;
 }
@@ -115,3 +118,5 @@
   right: 5px;
   text-align: right;
 }
+
+

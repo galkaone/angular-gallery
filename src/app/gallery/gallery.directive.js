@@ -68,10 +68,11 @@
 
 				$modal.open({
 				   animation: true,
+				   size: 'lg',
 				   templateUrl: 'app/gallery/gallery-modal.html',
 				   controller: 'GalleryModalController',
 				   controllerAs: 'modal',
-				   bindToController: true,
+				   // bindToController: true,
    				   resolve: {
    				   		gallery: function () {
    				   			return {
