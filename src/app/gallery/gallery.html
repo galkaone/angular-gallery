@@ -1,0 +1,62 @@
+<div class="gallery">
+
+    <div>
+     <div my-slider auto-slide="true" auto-slide-time="{{gallery.autoRotateTime}}" class="slider">
+
+       <div my-slider-window class="slider-window">
+         <div my-slider-item-list class="slider-item-list">
+           <div my-slider-item class="slider-item" ng-repeat="img in gallery.images">
+              <img src="{{img.url}}" width="500" height="300" alt="">
+           </div>
+         </div>
+       </div>
+     </div>
+
+    </div>
+
+  <div class="gallery__menu ">
+
+<!--   <form class="form-inline">
+      <div class="form-group">
+        <label for="exampleInputName2">Name</label>
+        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail2">Email</label>
+        <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+      </div>
+      <button type="submit" class="btn btn-default">Send invitation</button>
+    </form>
+ -->
+    <input type="search" placeholder="Search for image" ng-model="gallery.searchFilter"/>
+
+    <select
+      ng-if="gallery.sorting"
+      ng-model="gallery.sortType"
+      ng-options="type for type in gallery.sortTypes track by type">
+    </select>
+
+    <select
+      ng-model="gallery.resultsPerPage"
+      ng-options="opt for opt in gallery.resOptions track by opt">
+      <option value="">Choose Amount</option>
+    </select>
+
+  </div>
+
+  <!-- gallery images -->
+  <ul class="gallery__images">
+    <li ng-repeat="img in gallery.filteredImages = (gallery.images | orderBy:gallery.sortType | filter:gallery.searchFilter | limitTo: gallery.resultsPerPage)">
+      <img ng-click="gallery.enlargeImg(img)" ng-src="{{img.url}}" title="{{img.title}}" alt="" />
+    </li>
+  </ul>
+
+  <div>
+
+  <div>
+    modal window (bootstrap)
+    so image with next/prev buttons
+  </div>
+
+</div>
+

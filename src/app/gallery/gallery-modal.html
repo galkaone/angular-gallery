@@ -1,0 +1,22 @@
+<div my-slider start-index="{{modal.gallery.currentImgIndex}}" class="slider">
+
+  <div my-slider-window class="slider-window">
+    <div my-slider-item-list class="slider-item-list">
+      <div my-slider-item class="slider-item" ng-repeat="img in modal.gallery.images">
+         <img src="{{img.url}}" width="500" height="300" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-nav">
+    <a class="previous" href="" ng-click="previousItem()">
+      <span class="icon glyphicon glyphicon-chevron-left"></span>
+      <span class="text">Previous</span>
+    </a>
+    <a class="next" href="" ng-click="nextItem()">
+      <span class="text">Next</span>
+      <span class="icon glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
+
+</div>

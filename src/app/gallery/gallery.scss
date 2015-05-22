@@ -1,0 +1,29 @@
+.gallery {
+
+}
+
+.gallery__menu {
+  text-align: center;
+
+  & input {
+    width: 200px;
+    display: inline-block;
+  }
+}
+
+.gallery__images {
+  padding: 0;
+  text-align: center;
+
+  & li {
+    display: inline-block;
+    padding: 5px;
+
+    & img {
+      height: 200px;
+      width: 200px;
+    }
+  }
+}
+
+
