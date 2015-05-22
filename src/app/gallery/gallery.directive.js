@@ -25,10 +25,25 @@
 			};
 		}
 
-		function GalleryController ($timeout, $modal, lodash, galleryService) {
+		function GalleryController ($scope, $timeout, $filter, $modal, lodash, galleryService) {
 			var gallery = this;
 
 			gallery.enlargeImg = enlargeImg;
+			gallery.updateGallery = updateGallery;
+
+			// make sure to update pagination and gallery compoents after results amount was changed
+			$scope.$watch('gallery.resultsPerPage', function( newValue ) {
+					updateGallery(gallery.images);
+				}
+			);
+
+			// make sure to update pagenation and gallery components after search was changed
+			$scope.$watch('gallery.searchFilter', function( newValue ) {
+					var afterSearch = $filter('filter')(gallery.images, newValue);
+					updateGallery(afterSearch);
+				}
+			);
+
 
 			// making sure to run digest one more time since we are editing the scope properties
 			$timeout(activate, 1);
@@ -41,9 +56,11 @@
 				if (angular.isString(gallery.feed)) {
 					galleryService.getImages(gallery.feed).then(function (images) {
 						gallery.images = images;
+						gallery.currentPageImages = lodash.slice(gallery.images, 0, gallery.resultsPerPage);
 					});
-				}else {
+				} else {
 					gallery.images = gallery.feed;
+					gallery.currentPageImages = lodash.slice(gallery.images, 0, gallery.resultsPerPage);
 				}
 
 				// handle default value for scope properties
@@ -61,6 +78,15 @@
 
 				//
 				gallery.searchFilter = '';
+
+				gallery.pageNum = 1;
+
+			}
+
+			function updateGallery (images) {
+				var pageIndex = (gallery.pageNum -1) * gallery.resultsPerPage;
+				gallery.currentPageImages = lodash.slice(images, pageIndex, pageIndex + gallery.resultsPerPage);
+
 			}
 
 			function enlargeImg (img) {
@@ -72,7 +98,7 @@
 				   templateUrl: 'app/gallery/gallery-modal.html',
 				   controller: 'GalleryModalController',
 				   controllerAs: 'modal',
-				   // bindToController: true,
+				   bindToController: true,
    				   resolve: {
    				   		gallery: function () {
    				   			return {
