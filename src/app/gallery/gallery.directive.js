@@ -52,17 +52,6 @@
 
 			function activate () {
 
-				// handle feed property (array/string)
-				if (angular.isString(gallery.feed)) {
-					galleryService.getImages(gallery.feed).then(function (images) {
-						gallery.images = images;
-						gallery.currentPageImages = lodash.slice(gallery.images, 0, gallery.resultsPerPage);
-					});
-				} else {
-					gallery.images = gallery.feed;
-					gallery.currentPageImages = lodash.slice(gallery.images, 0, gallery.resultsPerPage);
-				}
-
 				// handle default value for scope properties
 				gallery.search = gallery.search !== 'false' ? true : false;
 				gallery.paginate = gallery.paginate !== 'false' ? true : false;
@@ -81,11 +70,27 @@
 
 				gallery.pageNum = 1;
 
+
+				// handle feed property (array/string)
+				if (angular.isString(gallery.feed)) {
+					galleryService.getImages(gallery.feed).then(function (images) {
+						gallery.images = images;
+						updateGallery(gallery.images);
+					});
+				} else {
+					gallery.images = gallery.feed;
+					updateGallery(gallery.images);
+				}
 			}
 
 			function updateGallery (images) {
+				if( !images ) {
+					return;
+				}
+				console.log(images.length);
 				var pageIndex = (gallery.pageNum -1) * gallery.resultsPerPage;
 				gallery.currentPageImages = lodash.slice(images, pageIndex, pageIndex + gallery.resultsPerPage);
+				gallery.totalImages = images.length;
 
 			}
 
