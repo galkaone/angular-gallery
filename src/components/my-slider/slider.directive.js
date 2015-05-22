@@ -152,7 +152,6 @@ angular.module('gk.components.slider')
 
 		if (attrs.autoSlide === 'true') {
 			var interval = attrs.autoSlideTime || 5;
-				console.log(interval);
 			interval = parseInt(interval) * 1000;
 
 			$interval(function () {

@@ -5,10 +5,11 @@
 		.module('gk.gallery')
 		.service('galleryService', galleryService);
 
-	function galleryService ($q, $http) {
+	function galleryService ($q, $http, lodash) {
 
 		var service = {
-			getImages: getImages
+			getImages: getImages,
+			setCurrentImages: setCurrentImages
 		};
 
 		return service;
@@ -27,6 +28,15 @@
 				});
 
 			return deferred.promise;
+		}
+
+		function setCurrentImages (images, pageNumber, resultsPerPage) {
+			var pageIndex;
+
+			resultsPerPage = parseInt(resultsPerPage);
+			pageIndex = (parseInt(pageNumber) -1) * resultsPerPage;
+
+			return lodash.slice(images, pageIndex, pageIndex + resultsPerPage);
 		}
 	}
 

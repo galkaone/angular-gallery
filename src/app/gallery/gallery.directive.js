@@ -28,22 +28,11 @@
 		function GalleryController ($scope, $timeout, $filter, $modal, lodash, galleryService) {
 			var gallery = this;
 
-			gallery.enlargeImg = enlargeImg;
+			var galleryImages = [];
+
+			// controller public functions
+			gallery.enlargeImage = enlargeImage;
 			gallery.updateGallery = updateGallery;
-
-			// make sure to update pagination and gallery compoents after results amount was changed
-			$scope.$watch('gallery.resultsPerPage', function( newValue ) {
-					updateGallery(gallery.images);
-				}
-			);
-
-			// make sure to update pagenation and gallery components after search was changed
-			$scope.$watch('gallery.searchFilter', function( newValue ) {
-					var afterSearch = $filter('filter')(gallery.images, newValue);
-					updateGallery(afterSearch);
-				}
-			);
-
 
 			// making sure to run digest one more time since we are editing the scope properties
 			$timeout(activate, 1);
@@ -52,7 +41,26 @@
 
 			function activate () {
 
-				// handle default value for scope properties
+				// make sure to update pagination and gallery compoents after results amount was changed
+				$scope.$watch('gallery.resultsPerPage', function( newValue ) {
+						resetPagination();
+						updateGallery(gallery.filteredImages);
+					}
+				);
+
+				// make sure to update pagenation and gallery components after search was changed
+				$scope.$watch('gallery.searchFilter', function( newValue ) {
+						resetPagination();
+						gallery.filteredImages = $filter('filter')(galleryImages, newValue);
+						updateGallery(gallery.filteredImages);
+					}
+				);
+
+				prepareModels();
+			}
+
+			function prepareModels () {
+				// handle default values of scope properties
 				gallery.search = gallery.search !== 'false' ? true : false;
 				gallery.paginate = gallery.paginate !== 'false' ? true : false;
 				gallery.sorting = gallery.sorting !== 'false' ? true : false;
@@ -60,42 +68,51 @@
 				gallery.resultsPerPage = gallery.resultsPerPage ? gallery.resultsPerPage : 10;
 				gallery.autoRotateTime = gallery.autoRotateTime ? gallery.autoRotateTime : 4;
 
+				// create results options model
 				gallery.resOptions = [5, 10, 15, 20];
 
+				// create sort options model
 				gallery.sortTypes = ['title', 'date'];
 				gallery.sortType = gallery.sortTypes[0];
 
-				//
+				// serach model
 				gallery.searchFilter = '';
 
-				gallery.pageNum = 1;
-
+				resetPagination();
 
 				// handle feed property (array/string)
 				if (angular.isString(gallery.feed)) {
+					// get the images
 					galleryService.getImages(gallery.feed).then(function (images) {
-						gallery.images = images;
-						updateGallery(gallery.images);
+						prepareImages(images);
 					});
 				} else {
-					gallery.images = gallery.feed;
-					updateGallery(gallery.images);
+					prepareImages(gallery.feed);
 				}
+			}
+
+			function resetPagination () {
+				gallery.pageNum = 1;
+			}
+
+			function prepareImages (images) {
+				galleryImages = images;
+				gallery.allImages = galleryImages;
+				gallery.filteredImages = galleryImages;
+				updateGallery(gallery.filteredImages);
 			}
 
 			function updateGallery (images) {
 				if( !images ) {
 					return;
 				}
-				console.log(images.length);
-				var pageIndex = (gallery.pageNum -1) * gallery.resultsPerPage;
-				gallery.currentPageImages = lodash.slice(images, pageIndex, pageIndex + gallery.resultsPerPage);
-				gallery.totalImages = images.length;
+
+				gallery.currentPageImages = galleryService.setCurrentImages(images, gallery.pageNum, gallery.resultsPerPage);
 
 			}
 
-			function enlargeImg (img) {
-				var imgIndex = lodash.indexOf(gallery.filteredImages, img);
+			function enlargeImage (img) {
+				var imgIndex = lodash.indexOf(gallery.visibleImages, img);
 
 				$modal.open({
 				   animation: true,
@@ -107,13 +124,15 @@
    				   resolve: {
    				   		gallery: function () {
    				   			return {
-   				   				images: gallery.filteredImages,
+   				   				images: gallery.visibleImages,
    				   				currentImgIndex: imgIndex
 							};
    				   		}
 				   }
 				 });
 			}
+
+
 		}
 
 })();

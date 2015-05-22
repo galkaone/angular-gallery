@@ -6,7 +6,7 @@
 
        <div my-slider-window class="slider-window">
          <div my-slider-item-list class="slider-item-list">
-           <div my-slider-item class="slider-item" ng-repeat="img in ::gallery.images">
+           <div my-slider-item class="slider-item" ng-repeat="img in ::gallery.allImages">
               <img src="{{img.url}}" alt="">
            </div>
          </div>
@@ -45,15 +45,15 @@
 
   <div class="gallery__images">
   <!-- used https://github.com/IronSummitMedia/startbootstrap-thumbnail-gallery -->
-    <div ng-repeat="img in gallery.filteredImages = (gallery.currentPageImages | orderBy:gallery.sortType)"  class="col-lg-3 col-md-4 col-xs-6 thumb">
-      <a ng-click="gallery.enlargeImg(img)" class="thumbnail">
+    <div ng-repeat="img in gallery.visibleImages = (gallery.currentPageImages | orderBy:gallery.sortType)"  class="col-lg-3 col-md-4 col-xs-6 thumb">
+      <a ng-click="gallery.enlargeImage(img)" class="thumbnail">
         <img ng-src="{{img.url}}" class="img-responsive" title="{{img.title}}" alt="" />
       </a>
     </div>
   </div>
 
   <div class="gallery__footer col-lg-12">
-    <pagination total-items="gallery.totalImages" items-per-page="gallery.resultsPerPage" ng-model="gallery.pageNum" ng-change="gallery.updateGallery(gallery.images)"></pagination>
+    <pagination total-items="gallery.filteredImages.length" items-per-page="gallery.resultsPerPage" ng-model="gallery.pageNum" ng-change="gallery.updateGallery(gallery.filteredImages)"></pagination>
   <div>
 </div>
 
