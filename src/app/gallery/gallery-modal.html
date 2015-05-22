@@ -1,8 +1,8 @@
-<div my-slider start-index="{{modal.gallery.currentImgIndex}}" class="slider">
+<div my-slider start-index="{{::modal.gallery.currentImgIndex}}" class="slider">
 
   <div my-slider-window class="slider-window">
     <div my-slider-item-list class="slider-item-list">
-      <div my-slider-item class="slider-item" ng-repeat="img in modal.gallery.images">
+      <div my-slider-item class="slider-item" ng-repeat="img in ::modal.gallery.images">
          <img src="{{img.url}}" width="500" height="300" alt="">
       </div>
     </div>
