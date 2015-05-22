@@ -3,17 +3,15 @@
 
 	angular.module('app', [
 		// angular modules
-		'ngAnimate',
-		// 'ngCookies',
-		// 'ngTouch',
 		'ngSanitize',
 
 		// app modules
+		'gk.gallery',
+		// components
+		'gk.components.slider'
 
 		// vendor modules
-		'ui.router',
-		'ui.bootstrap',
-		'LocalStorageModule'
+		// 'ui.router',
 	]);
 
 })();
