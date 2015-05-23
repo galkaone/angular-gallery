@@ -46,6 +46,6 @@ gulp.task('serve', ['watch'], function () {
   ]);
 });
 
-gulp.task('serve:dist', ['build'], function () {
-  browserSyncInit('dist');
-});
+// gulp.task('serve:dist', ['build'], function () {
+//   browserSyncInit('dist');
+// });

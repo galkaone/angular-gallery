@@ -1,5 +1,5 @@
-# angular-gallery
+# angular-gallery (this is an exercise no more)
 
 - first do "npm install"
 - then do "bower install"
-- finally init the app by writing "gulp serve" or "gulp serve:dist"
+- run "gulp serve"
