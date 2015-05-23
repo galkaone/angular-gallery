@@ -45,10 +45,11 @@
 
   <div class="gallery__images">
   <!-- used https://github.com/IronSummitMedia/startbootstrap-thumbnail-gallery -->
-    <div ng-repeat="img in gallery.visibleImages = (gallery.currentPageImages | orderBy:gallery.sortType)"  class="col-lg-3 col-md-4 col-xs-6 thumb">
+    <div ng-repeat="img in gallery.visibleImages = (gallery.currentPageImages | orderBy:-gallery.sortType)"  class="col-lg-3 col-md-4 col-xs-6 thumnail-container">
       <a ng-click="gallery.enlargeImage(img)" class="thumbnail">
         <img ng-src="{{img.url}}" class="img-responsive" title="{{img.title}}" alt="" />
       </a>
+      <a ng-click="gallery.blockImage(img)" class="delete"> Don't like me? to the black list! </a>
     </div>
   </div>
 

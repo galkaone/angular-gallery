@@ -33,6 +33,7 @@
 			// controller public functions
 			gallery.enlargeImage = enlargeImage;
 			gallery.updateGallery = updateGallery;
+			gallery.blockImage = blockImage;
 
 			// making sure to run digest one more time since we are editing the scope properties
 			$timeout(activate, 1);
@@ -97,8 +98,8 @@
 
 			function prepareImages (images) {
 				galleryImages = images;
-				gallery.allImages = galleryImages;
-				gallery.filteredImages = galleryImages;
+				gallery.allImages = images;
+				gallery.filteredImages = images;
 				updateGallery(gallery.filteredImages);
 			}
 
@@ -106,9 +107,7 @@
 				if( !images ) {
 					return;
 				}
-
 				gallery.currentPageImages = galleryService.setCurrentImages(images, gallery.pageNum, gallery.resultsPerPage);
-
 			}
 
 			function enlargeImage (img) {
@@ -130,6 +129,14 @@
    				   		}
 				   }
 				 });
+			}
+
+			function blockImage (img) {
+				galleryService.addToBlackList(img);
+
+				galleryImages = galleryService.filterBlackList(galleryImages);
+				gallery.filteredImages = galleryService.filterBlackList(gallery.filteredImages);
+				updateGallery(gallery.filteredImages);
 			}
 
 

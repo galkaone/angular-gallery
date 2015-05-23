@@ -7,7 +7,8 @@
 			'ngAnimate',
 			// vendor modules
 			'ngLodash',
-			'ui.bootstrap'
+			'ui.bootstrap',
+			'LocalStorageModule'
 		]);
 
 })();
